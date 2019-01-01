@@ -1,6 +1,8 @@
 
-const axios = require('axios')
+const axios = require('axios');
 const config=require("../config/configs");
+
+const numberOfParties = 3;
 
 /*
 var monObjet = {
@@ -51,7 +53,7 @@ console.log(resultat)
 */
 
 
-var monObjet = {
+/*var monObjet = {
     list: [],
 
     init: async function() {
@@ -65,20 +67,32 @@ var monObjet = {
 
 var obj1 = Object.create(monObjet);
 obj1.init();
-console.log(obj1.list.data)
+console.log(obj1.list.data);*/
+
+
+function sumVoices(pvList){
+    var sum = [];
+    for(var i=0; i<numberOfParties; i++){
+        sum.push(0);
+    }
+    pvList.forEach(function(item){
+        for(var i=0; i<numberOfParties; i++){
+            sum[i] += item.voices[i];
+        }
+    });
+    return sum;
+}
 
 
 
-
-
-
-let mot = "bonjour mes amis";
+var mot = "bonjour mes amis";
 
 module.exports = {
     listPvs(req,res) {
         axios.get(config.blochainApiUri+'Pv')
             .then(function (response) {
-                res.status(200).send(response.data)
+                var sum = sumVoices(response.data);
+                res.status(200).send(sum);
             })
             .catch(function (error) {
                 res.status(400).send(error.response.data.errors[0].message)
