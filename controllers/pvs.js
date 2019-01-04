@@ -2,8 +2,9 @@
 const axios = require('axios');
 const config=require("../config/configs");
 
-const numberOfParties = 3;
-const numberOfPollingStations = 3;
+var numberOfParties;
+var numberOfPollingStations;
+var numberOfSuscribers;
 
 
 // First level of result in our problem
@@ -52,7 +53,6 @@ function equals(tab1,tab2){
 
 // Extract for a polling station the most repetitive pv
 function extractionPv(pvs){
-    console.log(pvs);
     var comparaison = [];
     var response = pvs[pvs.length-1];
     var max=0; 
@@ -70,8 +70,6 @@ function extractionPv(pvs){
     }
 
     max = Math.max(...comparaison);
-    console.log('resultat max');
-    console.log(comparaison);
     if(max>0){
         response = pvs[indiceBigElement(comparaison)];
     }
@@ -108,7 +106,6 @@ function ourList(pvs){
 
 // Our result after processing the data
 function secondLevelResult(pvs){
-    console.log("Nos résultats");
     return firstLevelResult(ourList(pvs));
 }
 
@@ -143,6 +140,11 @@ module.exports = {
             .catch(function (error) {
                 res.status(400).send(error.response.data.errors[0].message)
             })
+    },
+    init(nbreCandidats, nbreBureaux, nbreInscrits){
+        numberOfParties = nbreCandidats;
+        numberOfPollingStations = nbreBureaux;
+        numberOfSuscribers = nbreInscrits;
     }
 };
 
