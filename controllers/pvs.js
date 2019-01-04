@@ -14,7 +14,6 @@ function calculatePercentages(tab){
     for(var i=0; i<tab.length; i++){
         sum+=tab[i];
     }
-    console.log(tab);
     for(var i=0; i<tab.length; i++){
         percentages[i] = (tab[i]/sum)*100;
     }
@@ -138,9 +137,8 @@ module.exports = {
                 var result = firstLevelResult(response.data);
                 var percentages = calculatePercentages(result);
                 var winner = indiceBigElement(result) + 1;
-                
-                res.render('resultat_i',{id:req.params.partyNumber, nbrCandidat:numberOfParties, tab:result, winner: winner, percentages:percentages});
-                //res.status(200).send(result);
+                var i = parseInt(req.params.partyNumber) + 1;
+                res.render('resultat_i',{id:i, nbrCandidat:numberOfParties, tab:result, winner: winner, percentages:percentages});
             })
             .catch(function (error) {
                 res.status(400).send(error.response.data.errors[0].message)
@@ -160,7 +158,6 @@ module.exports = {
                 if(req.params.scrutineerName === "elecam"){
                     res.render('elecam',{nbrCandidat:numberOfParties, tab:result, winner: winner, percentages:percentages});
                 }
-                //res.status(200).send(result);
             })
             .catch(function (error) {
                 res.status(400).send(error.response.data.errors[0].message)
@@ -175,7 +172,6 @@ module.exports = {
                 var winner = indiceBigElement(result) + 1;
                 
                 res.render('nosResultats',{nbrCandidat:numberOfParties, tab:result, winner: winner, percentages:percentages});
-                //res.status(200).send(result);
             })
             .catch(function (error) {
                 res.status(400).send(error.response.data.errors[0].message)

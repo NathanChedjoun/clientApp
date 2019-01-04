@@ -17,7 +17,7 @@ html(lang='fr')
         link(href='/stylesheets/style.css', rel='stylesheet')
     body
         nav.navbar.navbar-expand-md.navbar-default.fixed-top.shadow-sm
-            a.navbar-brand(href='#')
+            a.navbar-brand(href='/')
                 p
                     img(src='/images/vote.png', height='100px', width='100px')
             button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse', aria-controls='navbarCollapse', aria-expanded='false', aria-label='Toggle navigation')
@@ -27,10 +27,10 @@ html(lang='fr')
                     button.btn.my-2.my-sm-0(type='submit')
                 ul.nav.navbar-nav
                     li.nav-item.active
-                        a.nav-link(href='resultats#about')
+                        a.nav-link(href='/resultats#firstLevel')
                             p Premier niveau
                     li.nav-item
-                        a.nav-link(href='resultats#portfolio')
+                        a.nav-link(href='/resultats#secondLevel')
                             p Deuxième niveau
         // About
         section
