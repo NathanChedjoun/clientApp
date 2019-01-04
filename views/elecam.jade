@@ -13,13 +13,13 @@ html(lang='fr')
         meta(name='author', content='')
         title Cloud computing-Vote
         // Css
-        link(href='stylesheets/bootstrap.css', rel='stylesheet')
-        link(href='stylesheets/style.css', rel='stylesheet')
+        link(href='/stylesheets/bootstrap.css', rel='stylesheet')
+        link(href='/stylesheets/style.css', rel='stylesheet')
     body
         nav.navbar.navbar-expand-md.navbar-default.fixed-top.shadow-sm
             a.navbar-brand(href='#')
                 p
-                    img(src='images/vote.png', height='100px', width='100px')
+                    img(src='/images/vote.png', height='100px', width='100px')
             button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse', aria-controls='navbarCollapse', aria-expanded='false', aria-label='Toggle navigation')
                 span.navbar-toggler-icon
             #navbarCollapse.collapse.navbar-collapse
@@ -43,7 +43,7 @@ html(lang='fr')
                 .row
                     .col-md-12.big-letter.text-center
                         p  
-                        h4.petit  VAINQUEUR : CANDIDAT i
+                        h4.petit  VAINQUEUR : CANDIDAT #{winner}
                         p
                 .row
                     .col-md-6.big-letter
@@ -74,21 +74,23 @@ html(lang='fr')
                     a(href='') 5GI
         a.cd-top(href='#page-top') Top
         // script
-        script(src='javascripts/jquery.js')
-        script(src='javascripts/bootstrap.min.js')
-        script(src='javascripts/modernizr.js')
-        script(src='javascripts/script.js')
-        script(src='javascripts/Chart.js')
+        script(src='/javascripts/jquery.js')
+        script(src='/javascripts/bootstrap.min.js')
+        script(src='/javascripts/modernizr.js')
+        script(src='/javascripts/script.js')
+        script(src='/javascripts/Chart.js')
         script.
 
-            var tab = [];
+            var candidates = [];
             var backgroundColorTable = [];
             var borderColorTable = [];
             var max=255,min=80;
             var nbrCandidat = #{nbrCandidat};
+            var resultats = [#{tab}];
+            var percentages = [#{percentages}];
 
             for(var i=1; i<=nbrCandidat; i++){
-                tab.push("Candidat " + i);
+                candidates.push("Candidat " + i);
             }
             for(var i=1; i<=nbrCandidat; i++){
                 backgroundColorTable.push(
@@ -108,20 +110,14 @@ html(lang='fr')
                 );
             }
 
-            var resultats = [];
-            for(var i=1; i<=nbrCandidat; i++){
-                resultats.push(50);
-            }
-
-
             var ctx = document.getElementById("camember");
             var myChart = new Chart(ctx, {
             type: 'pie',
             data: {
-            labels: tab,
+            labels: candidates,
             datasets: [{
             label: 'Nombre de voix',
-            data: resultats,
+            data: percentages,
             backgroundColor: backgroundColorTable,
             borderColor: borderColorTable,
             borderWidth: 1
@@ -141,7 +137,7 @@ html(lang='fr')
             var myChart2 = new Chart(ctx2, {
             type: 'bar',
             data: {
-            labels: tab,
+            labels: candidates,
             datasets: [{
             label: 'Nombre de voix',
             data: resultats,

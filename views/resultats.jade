@@ -13,13 +13,13 @@ html(lang='fr')
         meta(name='author', content='')
         title Cloud computing-Vote
         // Css
-        link(href='stylesheets/bootstrap.css', rel='stylesheet')
-        link(href='stylesheets/style.css', rel='stylesheet')
+        link(href='/stylesheets/bootstrap.css', rel='stylesheet')
+        link(href='/stylesheets/style.css', rel='stylesheet')
     body
         nav.navbar.navbar-expand-md.navbar-default.fixed-top.shadow-sm
             a.navbar-brand(href='#')
                 p
-                    img(src='images/vote.png', height='100px', width='100px')
+                    img(src='/images/vote.png', height='100px', width='100px')
             button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse', aria-controls='navbarCollapse', aria-expanded='false', aria-label='Toggle navigation')
                 span.navbar-toggler-icon
             #navbarCollapse.collapse.navbar-collapse
@@ -50,7 +50,7 @@ html(lang='fr')
                             .card-body
                                 br
                             .card-footer
-                                a.btn.btn-info(href='/resultat?id=#{i}',id='#{i}') Voir les résultats
+                                a.btn.btn-info(href='/resultPartyByPartyNumber/#{i}',id='#{i}') Voir les résultats
                     - }
         // Gallery
         section#portfolio
@@ -70,7 +70,7 @@ html(lang='fr')
                             .card-body
                                 br
                             .card-footer
-                                a.btn.btn-info(href='/NosResultat', id='nosResultat') Voir les résultats
+                                a.btn.btn-info(href='/ourOwnResult', id='nosResultat') Voir les résultats
                     .col-md-4.text-center
                         p 
                         br
@@ -80,7 +80,7 @@ html(lang='fr')
                             .card-body
                                 br
                             .card-footer
-                                a.btn.btn-info(href='/Elecam', id='Elecam') Voir les résultats
+                                a.btn.btn-info(href='/resultPartyByScrutineerName/elecam', id='Elecam') Voir les résultats
                     .col-md-4.text-center
                         p 
                         br
@@ -90,7 +90,7 @@ html(lang='fr')
                             .card-body
                                 br
                             .card-footer
-                                a.btn.btn-info(href='/Reference', id='Reference') Voir les résultats
+                                a.btn.btn-info(href='/resultPartyByScrutineerName/bon', id='Reference') Voir les résultats
         // End Gallery
         // Copyright
         footer
@@ -100,7 +100,7 @@ html(lang='fr')
                     a(href='') 5GI
         a.cd-top(href='#page-top') Top
         // script
-        script(src='javascripts/jquery.js')
-        script(src='javascripts/bootstrap.min.js')
-        script(src='javascripts/modernizr.js')
-        script(src='javascripts/script.js')
+        script(src='/javascripts/jquery.js')
+        script(src='/javascripts/bootstrap.min.js')
+        script(src='/javascripts/modernizr.js')
+        script(src='/javascripts/script.js')

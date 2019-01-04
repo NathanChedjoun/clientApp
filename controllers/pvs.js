@@ -7,6 +7,21 @@ var numberOfPollingStations;
 var numberOfSuscribers;
 
 
+// return the percentages of the candidates
+function calculatePercentages(tab){
+    var sum=0;
+    var percentages = [];
+    for(var i=0; i<tab.length; i++){
+        sum+=tab[i];
+    }
+    console.log(tab);
+    for(var i=0; i<tab.length; i++){
+        percentages[i] = (tab[i]/sum)*100;
+    }
+    return percentages;
+}
+
+
 // First level of result in our problem
 function firstLevelResult(partyPvList){
     var sum = [];
@@ -97,10 +112,15 @@ function ourList(pvs){
                 }
             }
         }
-        listPvsPollingStation.push(pvElecam); // pv qu'on enverra pour ce bureau de vote lorsque tous truque les élections dans leur coin
+
+        // pv qu'on enverra pour ce bureau de vote lorsque tous 
+        // truque les élections dans leur coin
+
+        listPvsPollingStation.push(pvElecam); 
         response.push(extractionPv(listPvsPollingStation));
         listPvsPollingStation = [];
     }
+    
     return response;
 }
 
@@ -114,8 +134,13 @@ module.exports = {
     resultPartyByPartyNumber(req,res) {
         axios.get(config.blochainApiUri+'queries/selectPvByPartyNumber?partyNumber='+req.params.partyNumber)
             .then(function (response) {
+
                 var result = firstLevelResult(response.data);
-                res.status(200).send(result);
+                var percentages = calculatePercentages(result);
+                var winner = indiceBigElement(result) + 1;
+                
+                res.render('resultat_i',{id:req.params.partyNumber, nbrCandidat:numberOfParties, tab:result, winner: winner, percentages:percentages});
+                //res.status(200).send(result);
             })
             .catch(function (error) {
                 res.status(400).send(error.response.data.errors[0].message)
@@ -124,8 +149,18 @@ module.exports = {
     resultPartyByScrutineerName(req,res) {
         axios.get(config.blochainApiUri+'queries/selectPvByScrutineerName?scrutineerName='+req.params.scrutineerName)
             .then(function (response) {
+
                 var result = firstLevelResult(response.data);
-                res.status(200).send(result);
+                var percentages = calculatePercentages(result);
+                var winner = indiceBigElement(result) + 1;
+
+                if(req.params.scrutineerName === "bon"){
+                    res.render('reference',{nbrCandidat:numberOfParties, tab:result, winner: winner, percentages:percentages});
+                }
+                if(req.params.scrutineerName === "elecam"){
+                    res.render('elecam',{nbrCandidat:numberOfParties, tab:result, winner: winner, percentages:percentages});
+                }
+                //res.status(200).send(result);
             })
             .catch(function (error) {
                 res.status(400).send(error.response.data.errors[0].message)
@@ -134,8 +169,13 @@ module.exports = {
     ourOwnResult(req,res) {
         axios.get(config.blochainApiUri+'Pv')
             .then(function (response) {
+
                 var result = secondLevelResult(response.data);
-                res.status(200).send(result);
+                var percentages = calculatePercentages(result);
+                var winner = indiceBigElement(result) + 1;
+                
+                res.render('nosResultats',{nbrCandidat:numberOfParties, tab:result, winner: winner, percentages:percentages});
+                //res.status(200).send(result);
             })
             .catch(function (error) {
                 res.status(400).send(error.response.data.errors[0].message)

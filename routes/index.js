@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 
 const pvsController = require('../controllers').pvs;
+const config=require("../config/configs");
 
 var nbrCandidat;
 var nbrInscrit;
@@ -31,28 +32,6 @@ router.post('/resultats', function (req, res, next) {
 router.get('/resultats', function (req, res, next) {
   res.render('resultats',{nbrCandidat:nbrCandidat});
 });
-
-
-router.get('/resultat', function (req, res, next) {
-  var tab=[54,6,38];
-  res.render('resultat_i',{id:req.query.id, nbrCandidat:nbrCandidat, tab:tab});
-});
-
-
-router.get('/NosResultat', function (req, res, next) {
-  res.render('nosResultats',{nbrCandidat:nbrCandidat});
-});
-
-
-router.get('/Elecam', function (req, res, next) {
-  res.render('elecam',{nbrCandidat:nbrCandidat});
-});
-
-
-router.get('/Reference', function (req, res, next) {
-  res.render('reference',{nbrCandidat:nbrCandidat});
-});
-
 
 
 router.get("/resultPartyByPartyNumber/:partyNumber", pvsController.resultPartyByPartyNumber);
