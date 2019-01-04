@@ -10,8 +10,10 @@ router.get('/', function (req, res, next) {
 });
 
 
-router.get("/pvs", pvsController.listPvs);
-router.get("/description", pvsController.description);
+router.get("/resultPartyByPartyNumber/:partyNumber", pvsController.resultPartyByPartyNumber);
+router.get("/resultPartyByScrutineerName/:scrutineerName", pvsController.resultPartyByScrutineerName);
+router.get("/ourOwnResult", pvsController.ourOwnResult);
+
 module.exports = router;
 
 
