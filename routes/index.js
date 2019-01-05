@@ -29,10 +29,11 @@ router.post('/resultats', function (req, res, next) {
 
   axios.post('http://localhost:5000/api?number_party='+req.body.nbrCandidat+'&bureau_number='+req.body.nbrBureau+'&enrolled_number='+req.body.nbrInscrit+'&coalition_mode='+req.body.typeFraude)
   .then(function (response) {
-    if(response === "200"){
+    console.log(response);
+    if(response.data === 200){
       res.render('resultats',{nbrCandidat:req.body.nbrCandidat});
     }
-    else if (response === "404"){
+    else if (response.data === 404){
       res.status(404).send("Une erreur est survenue. Veuillez réessayer");
     }
     
