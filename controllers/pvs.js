@@ -129,7 +129,64 @@ function secondLevelResult(pvs){
 }
 
 
+
+
 module.exports = {
+    deleteAll(req, res){
+        axios.get(config.blochainApiUri+'Pv')
+            .then(function (response1) {
+                console.log("liste pvs ok");
+
+                axios.get(config.blochainApiUri+'Scrutineer')
+                    .then(function (response2) {
+                        console.log("liste scrutateurs ok");
+
+                        var scrutineerIds = response2.data.map(function(item){ return item.scrutineerId });
+                        var pvIds = response1.data.map(function(pv){ return pv.pvId });
+
+                        console.log("pvIds: " + JSON.stringify(pvIds));
+                        console.log("scrutineerIds: " + JSON.stringify(scrutineerIds));
+
+                        var deletePv = function(i) {
+                            if(i < pvIds.length) {
+                                axios.delete(config.blochainApiUri+'Pv/'+pvIds[i]).then(function() {
+                                    console.log("pv " + pvIds[i] + " supprimé")
+                                    deletePv(++i)
+                                })
+                                .catch(function (error) {
+                                    res.status(400).send(error.message)
+                                })
+                            }
+                            else{
+                                console.log("suppression pvs ok");
+                                res.render('index');
+                            }
+                        }
+                        var deleteScrutineer = function(i) {
+                            if(i < scrutineerIds.length) {
+                                axios.delete(config.blochainApiUri+'Scrutineer/'+scrutineerIds[i]).then(function() {
+                                    console.log("scrutateur " + scrutineerIds[i] + " supprimé")
+                                    deleteScrutineer(++i)
+                                })
+                                .catch(function (error) {
+                                    res.status(400).send(error.message)
+                                })  
+                            }
+                            else{
+                                console.log("suppression scrutateurs ok");
+                                deletePv(0)
+                            }
+                        }
+                        deleteScrutineer(0)
+                    })
+                    .catch(function (error) {
+                        res.status(400).send(error.response.data.errors[0].message)
+                    })    
+            })
+            .catch(function (error) {
+                res.status(400).send(error.response.data.errors[0].message)
+            })        
+    },
     resultPartyByPartyNumber(req,res) {
         axios.get(config.blochainApiUri+'queries/selectPvByPartyNumber?partyNumber='+req.params.partyNumber)
             .then(function (response) {
